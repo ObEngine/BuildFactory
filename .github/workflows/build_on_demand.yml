@@ -1,0 +1,19 @@
+name: Build on demand
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve issue info
+        run: echo "Building ObEngine commit #${{ github.event.issue.title }}"
+      - name: Checkout ObEngine repository
+        uses: actions/checkout@v2
+        with:
+          repository: Sygmei/ObEngine
+          path: obengine
+          ref: ${{ github.event.issue.title }}
