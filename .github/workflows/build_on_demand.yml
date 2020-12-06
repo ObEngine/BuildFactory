@@ -44,7 +44,7 @@ jobs:
       run: cd SFML; cmake .; make -j8; sudo make install
     - name: Compile ObEngine
       working-directory: ./obengine
-      run: cd obengine/build; cmake -DBUILD_TESTS=ON ..; make -j8
+      run: cd build; cmake -DBUILD_TESTS=ON ..; make -j8
     - name: Run tests
       working-directory: ./obengine
       run: ./build/tests/ObEngineTests
@@ -87,6 +87,7 @@ jobs:
       run: Expand-Archive -LiteralPath deps/SFML-2.5.1.zip -DestinationPath deps
       shell: pwsh
     - name: Create build directory
+      working-directory: ./obengine
       run: mkdir build
     - name: Run CMake on ObEngine
       working-directory: ./obengine
