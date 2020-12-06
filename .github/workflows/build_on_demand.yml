@@ -44,7 +44,7 @@ jobs:
       run: cd SFML; cmake .; make -j8; sudo make install
     - name: Compile ObEngine
       working-directory: ./obengine
-      run: cd build; cmake -DBUILD_TESTS=ON ..; make -j8
+      run: cd build; cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..; make -j8
     - name: Run tests
       working-directory: ./obengine
       run: ./build/tests/ObEngineTests
@@ -137,7 +137,7 @@ jobs:
       run: mkdir build
     - name: Run CMake on ObEngine
       working-directory: ./obengine
-      run: cd build && cmake -DBUILD_TESTS=ON ..
+      run: cd build && cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..
     - name: Compile ObEngine
       working-directory: ./obengine
       run: cd build && make -j8
