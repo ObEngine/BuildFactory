@@ -17,6 +17,12 @@ jobs:
         repository: Sygmei/ObEngine
         path: obengine
         ref: ${{ github.event.release.name }}
+    - name: Show content
+      working-directory: ./obengine
+      run: pwd; ls -al
+    - name: Show content 2
+      working-directory: obengine
+      run: pwd; ls -al
     - name: Create build directory
       working-directory: ./obengine
       run: mkdir build
