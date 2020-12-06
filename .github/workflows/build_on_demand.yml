@@ -17,9 +17,8 @@ jobs:
         repository: Sygmei/ObEngine
         path: obengine
         ref: ${{ github.event.release.name }}
-    - name: Clean previous execution
-      run: rm -rf build; rm -rf SFML
     - name: Create build directory
+      working-directory: ./obengine
       run: mkdir build
     - name: Aptitude update
       run: sudo apt-get update
@@ -38,12 +37,16 @@ jobs:
     - name: Compile and install SFML
       run: cd SFML; cmake .; make -j8; sudo make install
     - name: Compile ObEngine
+      working-directory: ./obengine
       run: cd build; cmake -DBUILD_TESTS=ON ..; make -j8
     - name: Run tests
+      working-directory: ./obengine
       run: ./build/tests/ObEngineTests
     - name: Create package
+      working-directory: ./obengine
       run: cp -r engine/ release/; cp ./build/src/Player/ObEnginePlayer release/
     - name: Package to archive
+      working-directory: ./obengine
       run: tar -cvf obengine-dev.tar release/ ; gzip -9 obengine-dev.tar
     - name: Upload Release Asset
       id: upload-release-asset-linux
@@ -52,7 +55,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./obengine-dev.tar.gz
+        asset_path: ./obengine/obengine-dev.tar.gz
         asset_name: obengine-dev.linux64.tar.gz
         asset_content_type: application/zip
 
@@ -80,16 +83,21 @@ jobs:
     - name: Create build directory
       run: mkdir build
     - name: Run CMake on ObEngine
+      working-directory: ./obengine
       run: cd build; cmake -G "Visual Studio 16 2019" -A x64 -DSFML_DIR="${env:GITHUB_WORKSPACE}/deps/SFML-2.5.1/lib/cmake/SFML" -DBUILD_TESTS=ON ..
       shell: pwsh
     - name: Compile ObEngine
+      working-directory: ./obengine
       run: cmake --build build --config Release -- /m:8
     - name: Run tests
+      working-directory: ./obengine
       run: ./build/tests/Release/ObEngineTests.exe
     - name: Create package
+      working-directory: ./obengine
       run: cp -r engine/ release/; cp ./build/src/Player/Release/* ./release/
       shell: pwsh
     - name: Package to archive
+      working-directory: ./obengine
       run: Compress-Archive -path ./release/* -destinationpath obengine-dev.zip -compressionlevel optimal
     - name: Upload Release Asset
       id: upload-release-asset-win
@@ -98,7 +106,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./obengine-dev.zip
+        asset_path: ./obengine/obengine-dev.zip
         asset_name: obengine-dev.win64.zip
         asset_content_type: application/zip
 
@@ -118,16 +126,22 @@ jobs:
     - name: Install SFML
       run: brew install sfml
     - name: Create build directory
+      working-directory: ./obengine
       run: mkdir build
     - name: Run CMake on ObEngine
+      working-directory: ./obengine
       run: cd build && cmake -DBUILD_TESTS=ON ..
     - name: Compile ObEngine
+      working-directory: ./obengine
       run: cd build && make -j8
     - name: Run tests
+      working-directory: ./obengine
       run: cd build && ./tests/ObEngineTests
     - name: Create package
+      working-directory: ./obengine
       run: cp -r engine/ release/; cp ./build/src/Player/ObEnginePlayer release/
     - name: Package to archive
+      working-directory: ./obengine
       run: tar -cvf obengine-dev.tar release/ ; gzip -9 obengine-dev.tar
     - name: Upload Release Asset
       id: upload-release-asset-macos
@@ -136,6 +150,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./obengine-dev.tar.gz
+        asset_path: ./obengine/obengine-dev.tar.gz
         asset_name: obengine-dev.macos64.tar.gz
         asset_content_type: application/zip
