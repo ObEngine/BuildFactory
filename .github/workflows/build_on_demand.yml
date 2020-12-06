@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Retrieve issue info
-        run: echo "Building ObEngine commit #${{ github.event.issue.title }}"
+        run: echo "Building ObEngine commit ${{ github.event.issue.title }}"
       - name: Checkout ObEngine repository
         uses: actions/checkout@v2
         with:
