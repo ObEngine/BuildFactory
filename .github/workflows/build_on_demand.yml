@@ -47,7 +47,7 @@ jobs:
       run: cd build; cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..; make -j8
     - name: Run tests
       working-directory: ./obengine
-      run: ./build/tests/ObEngineTests
+      run: LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/usr/local/lib" ./build/tests/ObEngineTests
     - name: Create package
       working-directory: ./obengine
       run: cp -r engine/ release/; cp ./build/src/Player/ObEnginePlayer release/
