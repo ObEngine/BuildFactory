@@ -44,7 +44,7 @@ jobs:
       run: cd SFML; cmake .; make -j8; sudo make install
     - name: Compile ObEngine
       working-directory: ./obengine
-      run: cd build; cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..; make -j8
+      run: cd build; cmake -DBUILD_TESTS=ON -DBUILD_TOOLKIT=ON -DCMAKE_BUILD_TYPE=Release ..; make -j8
     - name: Run tests
       working-directory: ./obengine
       run: LD_LIBRARY_PATH="$LD_LIBRARY_PATH;/usr/local/lib" ./build/tests/ObEngineTests
@@ -91,7 +91,7 @@ jobs:
       run: mkdir build
     - name: Run CMake on ObEngine
       working-directory: ./obengine
-      run: cd build; cmake -DSFML_DIR="${env:GITHUB_WORKSPACE}/deps/SFML-2.5.1/lib/cmake/SFML" -DBUILD_TESTS=ON ..
+      run: cd build; cmake -DSFML_DIR="${env:GITHUB_WORKSPACE}/deps/SFML-2.5.1/lib/cmake/SFML" -DBUILD_TESTS=ON -DBUILD_TOOLKIT=ON ..
       shell: pwsh
     - name: Compile ObEngine
       working-directory: ./obengine
@@ -137,7 +137,7 @@ jobs:
       run: mkdir build
     - name: Run CMake on ObEngine
       working-directory: ./obengine
-      run: cd build && cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..
+      run: cd build && cmake -DBUILD_TESTS=ON -DBUILD_TOOLKIT=ON -DCMAKE_BUILD_TYPE=Release ..
     - name: Compile ObEngine
       working-directory: ./obengine
       run: cd build && make -j8
