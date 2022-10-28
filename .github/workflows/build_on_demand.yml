@@ -134,24 +134,15 @@ jobs:
       run: brew install llvm
     - name: Install SFML
       run: brew install sfml
-      env:
-        CC: /opt/homebrew/opt/llvm/bin/clang
-        CXX: /opt/homebrew/opt/llvm/bin/clang++
     - name: Create build directory
       working-directory: ./obengine
       run: mkdir build
-    - name: Run CMake on ObEngine
-      working-directory: ./obengine
-      run: cd build && cmake -DBUILD_TESTS=ON -DBUILD_TOOLKIT=ON -DCMAKE_BUILD_TYPE=Release ..
-      env:
-        CC: /opt/homebrew/opt/llvm/bin/clang
-        CXX: /opt/homebrew/opt/llvm/bin/clang++
     - name: Compile ObEngine
       working-directory: ./obengine
-      run: cd build && make -j8
+      run: cd build && cmake -DBUILD_TESTS=ON -DBUILD_TOOLKIT=ON -DCMAKE_BUILD_TYPE=Release .. && make -j8
       env:
-        CC: /opt/homebrew/opt/llvm/bin/clang
-        CXX: /opt/homebrew/opt/llvm/bin/clang++
+        CC: /usr/local/opt/llvm/bin/clang
+        CXX: /usr/local/opt/llvm/bin/clang++
     - name: Run tests
       working-directory: ./obengine
       run: cd build && ./tests/ObEngineTests
